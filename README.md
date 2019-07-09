@@ -1,6 +1,6 @@
 # Annotation-Graph-Platform
 
-# Introduction
+## Introduction
 
 Due to the recent advances in machine learning, object and/or face recognition can be performed rapidly and accurately, at a very large scale. Making decisions and performing analytics based on a large amount of annotations is an important part of the effort around machine learning advances. The Annotation graph platform is a project with the principal aim of drawing meaningful conclusions and insights from annotated images, by taking streams of annotation data and mapping it to a graph database. 
 
@@ -8,23 +8,23 @@ This procedure creates a dynamicly evolving weighted complex network of images a
 
 Once such a graph is created, it can be analyzed to identify clusters of annotations. On the most basic level, the analyst might be interested in finding the list of objects that are most likely to be found in the same image . We can also perform more advanced analytics based on established complex network analysis metrics, as described in the section below.
 
-# Data Source
+## Data Source
 
 Detailing Open Images, preformatting of the images from csv files to json files. 
 
-# Overall Pipeline
+## Overall Pipeline
 
-# Image Annotation Streams As Kafka Producers
+## Image Annotation Streams As Kafka Producers
 
-# Spark Streaming as Microbatches For Generating Edge Lists
+## Spark Streaming as Microbatches For Generating Edge Lists
 
-# Neo4j Graph Database For Fast Graph Algorithm Queries
+## Neo4j Graph Database For Fast Graph Algorithm Queries
 
-# Instructions
+## Instructions
 
-# Complex Network Analysis of the Image Annotation Graph
+## Complex Network Analysis of the Image Annotation Graph
 
-# Upcoming Features and Improvements
+## Upcoming Features and Improvements
 Interfacing with Tensor Flow.
 
 
