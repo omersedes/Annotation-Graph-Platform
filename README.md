@@ -1,7 +1,10 @@
-## Annotation-Graph-Platform
+# Annotation-Graph-Platform
 
 ## Table of Contents
-2. [Introduction](README.md##introduction)
+1. [Introduction](README.md##introduction)
+2. [Data Source](README.md##data-source)
+3. [Pipeline](README.md##pipeline)
+5. [Instructions](README.md##instructions)
 
 
 ## Introduction
@@ -16,7 +19,7 @@ Once such a graph is created, it can be analyzed to identify clusters of annotat
 
 Detailing Open Images, preformatting of the images from csv files to json files. 
 
-## Overall Pipeline
+## Pipeline
 
 ## Instructions
 
@@ -32,5 +35,7 @@ Detailing Open Images, preformatting of the images from csv files to json files.
 
 ## Upcoming Features and Improvements
 Interfacing with Tensor Flow.
+Docker for quick and painless development.
+Working with Youtube 8M data.
 
 
