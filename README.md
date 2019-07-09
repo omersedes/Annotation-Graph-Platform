@@ -1,4 +1,8 @@
-# Annotation-Graph-Platform
+## Annotation-Graph-Platform
+
+## Table of Contents
+2. [Introduction](README.md##introduction)
+
 
 ## Introduction
 
