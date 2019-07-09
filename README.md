@@ -14,13 +14,15 @@ Detailing Open Images, preformatting of the images from csv files to json files.
 
 ## Overall Pipeline
 
+## Instructions
+
+## Website
+
 ## Image Annotation Streams As Kafka Producers
 
 ## Spark Streaming as Microbatches For Generating Edge Lists
 
 ## Neo4j Graph Database For Fast Graph Algorithm Queries
-
-## Instructions
 
 ## Complex Network Analysis of the Image Annotation Graph
 
