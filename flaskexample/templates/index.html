@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block graph %}
+<link rel="stylesheet" href="../static/css/index.css">
+
+<script src="https://cdn.neo4jlabs.com/neovis.js/v1.0.0/neovis.js"></script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+    </script>
+
+    <script type="text/javascript">
+                var viz;
+                function draw() {
+                        var config = {
+                                container_id: "viz",
+                                server_url: "bolt://ec2-52-90-203-215.compute-1.amazonaws.com:7687",
+                                server_user: "neo4j",
+                                server_password: "sq@V$L5#S6DxRDGz",
+                                labels: {
+                                        "Tag": {
+                                                "caption": "tag_name"
+                                        }
+                                },
+                                relationships: {
+                                        "IN_THE_SAME_PICTURE": {
+                                                "thickness": "weight",
+                                                "caption": false
+                                        }
+                                },
+				initial_cypher:`MATCH ()-[r:IN_THE_SAME_PICTURE]->()
+                                 WITH SUM(r.weight) AS totalweight
+                                 MATCH (n:Tag)-[r:IN_THE_SAME_PICTURE]->(m:Tag)
+                                 WITH n, m, r, totalweight, ROUND(toFloat(totalweight))/2000.0 AS threshold_1, ROUND(toFloat(totalweight))/1000.0 AS threshold_2
+                                 WHERE r.weight > threshold_1 AND r.weight < threshold_2
+                                 RETURN  n, m, r`
+                        };
+                        viz = new NeoVis.default(config);
+                        viz.render();
+                        console.log(viz);
+                }
+    </script>
+
+
+<div class="container-fluid scrollable" id="background-pic">
+    <h1>TagtoGraph</h1>
+    <p>A platform for finding connections from image annotations <p>
+    <div class="text-center jusitfy-content-between align-items-center flex-mid-nowrap flex-wrap">
+      <div>
+        <body onload="draw()">
+            <div id="viz"></div>
+        </body>
+      </div>
+    </div>
+    <form method="POST">
+        <div class="form-group justify-content-center align-items-center">
+            <input class="form-control col-md-4" id="search-input" type="text" placeholder="Search" aria-label="Search" name="search">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br>
+    <div class="justify-content-center"><a>Examples:</a></div>
+        <form method="post" action="">
+            <button method="post" type="submit" name="search" value="Telephone" class="btn btn-link">
+                Telephone
+            </button>
+            <button type="submit" name="search" value="Banana" class="btn btn-link">
+                    Banana
+            </button>
+            <button type="submit" name="search" value="Cat" class="btn btn-link">
+                    Cat
+            </button>
+            <button type="submit" name="search" value="Wine" class="btn btn-link">
+                    Wine
+            </button>
+            <button type="submit" name="search" value="Bicycle" class="btn btn-link">
+                    Bicycle
+            </button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+

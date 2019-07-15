@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block topic %}
+<a class="nav-link" href="/">Search Again</a>
+{% endblock %}
+
+{% block graph %}
+    <link rel="stylesheet" href="../static/css/results.css">
+
+    <script src="https://cdn.neo4jlabs.com/neovis.js/v1.0.0/neovis.js"></script>
+   
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous">
+    </script>
+
+    <script type="text/javascript">
+		var viz;
+		function draw(annotation) {
+			var config = {
+				container_id: "viz",
+				server_url: "bolt://ec2-52-90-203-215.compute-1.amazonaws.com:7687",
+				server_user: "neo4j",
+				server_password: "sq@V$L5#S6DxRDGz",
+				labels: {
+					"Tag": {
+						"caption": "tag_name"
+					}
+				},
+				relationships: {
+					"IN_THE_SAME_PICTURE": {
+						"thickness": "weight",
+						"caption": false
+					}
+				},
+				initial_cypher: 'MATCH (n {tag_name: \'\"'+annotation+'\"\'})-[r:IN_THE_SAME_PICTURE]->(m) RETURN * ORDER BY r.weight DESC LIMIT 20'
+			};
+			viz = new NeoVis.default(config);
+			viz.render();
+			console.log(viz);
+		}
+    </script>
+
+<div class="container-fluid scrollable d-flex jusitfy-content-between flex-wrap flex-mid-nowrap align-items-center pt3 pb-2 mb-3 border-bottom">
+    <h1>{{ search }}</h1>
+</div>
+
+<div class="text-center jusitfy-content-between align-items-center flex-mid-nowrap flex-wrap">
+    <h2>Graph Visualization</h2>
+    <div>
+        <body onload="draw('{{ search }}')">
+            <div id="viz"></div>
+        </body>
+    </div>
+    <button class="btn btn-primary" value="Stabilize" onclick="stabilize()">Stabilize</button>
+</div>
+
+{% endblock %}
+
