@@ -20,21 +20,20 @@ def write_relationship(tx, pair):
 
 
 def RddToNeo4J(iter):
-#def RddToNeo4J(pair):
        uri = "bolt://ec2-3-81-114-183.compute-1.amazonaws.com:7687"
        driver = GraphDatabase.driver(uri, auth=("neo4j", "neo4j2"))
        with driver.session() as session:
-            #tx = session.begin_transaction()
-            for pair in iter:
-                for i in range(100):
+            #for pair in iter:
+            for i in range(100):
                     try:
                         tx = session.begin_transaction()
-                        write_relationship(tx, pair)
+                        for pair in iter:
+                            write_relationship(tx, pair)
                         tx.commit()
                         break
                     except:
                         continue
-            #tx.commit()
+            session.close()
 
 def TagsToPairs(tags):
     pairs = list()
@@ -56,7 +55,7 @@ if __name__ == "__main__":
     #with driver.session() as session:
         sc = SparkContext(appName="ImageAnnotations")
         sc.setLogLevel("WARN")
-        ssc = StreamingContext(sc, 1)
+        ssc = StreamingContext(sc, 1.5)
          
         zkQuorum, topic = sys.argv[1:]
         kvs = KafkaUtils.createDirectStream(ssc, [topic], {"metadata.broker.list": zkQuorum})
