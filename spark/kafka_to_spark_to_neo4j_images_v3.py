@@ -20,11 +20,13 @@ def write_edge(tx, tag_1, tag_2):
                    "ON MATCH SET r.weight = r.weight + 1 "
                    "RETURN id(r)", tag_1 = tag_1, tag_2 = tag_2)
 
-def write_relationship(tx, tag_1, tag_2):
-    return  tx.run("MERGE (a:Tag {tag_name:$tag_1})-[r:IN_THE_SAME_PICTURE]-(b:Tag {tag_name:$tag_2}) "
+def write_relationship(tx, pairs):
+    return  tx.run("UNWIND $pairs AS pairs "
+                   "MERGE (a:Tag {tag_name:pairs[0]}) "
+                   "MERGE (b:Tag {tag_name:pairs[1]}) "
+                   "MERGE (a)-[r:IN_THE_SAME_PICTURE]->(b) "
                    "ON CREATE SET r.weight = 1 "
-                   "ON MATCH SET r.weight = r.weight + 1 "
-                   "RETURN id(a), id(b), id(r)", tag_1 = tag_1, tag_2 = tag_2)
+                   "ON MATCH SET r.weight = r.weight + 1", pairs = pairs)
 
 
 def RddToNeo4J(rdd, session):
@@ -38,19 +40,11 @@ def RddToNeo4J(rdd, session):
                for i in range(len(n)): 
                    for j in range(i): 
                        if i != j:
-                          pairs.append((n[i], n[j]))
-               print(pairs)
+                          pairs.append([n[i], n[j]])
+               #print(pairs)
     # Writing each tag pair to neo4j           
                if pairs != []:
-                  #tx = session.begin_transaction()
-                  for p in pairs:
-                     tag_1 = p[0];
-                     tag_2 = p[1];
-                     #write_node(tx, tag_1)
-                     #write_node(tx, tag_2)
-                     #write_edge(tx, tag_1, tag_2)
-                     write_relationship(tx, tag_1, tag_2)
-                  #tx.commit()
+                  write_relationship(tx, pairs)
         tx.commit()    
 
 
